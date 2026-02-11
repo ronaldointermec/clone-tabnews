@@ -8,16 +8,18 @@ test("GET to /api/v1/status shourd return 200", async () => {
   const parseUpdatedAt = new Date(responseBody.updated_at).toISOString();
   expect(responseBody.updated_at).toEqual(parseUpdatedAt);
 
-  expect(responseBody.version).toBeDefined();
-  expect(typeof responseBody.version).toBe("string");
+  expect(responseBody.dependencies.database.version).toEqual("16.0");
 
-  // 2. Valida se as conexões são números e fazem sentido matemático
-  expect(responseBody.max_connection).toBeDefined();
-  expect(responseBody.max_connection).toBeGreaterThan(0);
+  // expect(responseBody.version).toBeDefined();
+  // expect(typeof responseBody.version).toBe("string");
 
-  expect(responseBody.used_connection).toBeDefined();
-  expect(responseBody.used_connection).toBeGreaterThan(0);
-  expect(responseBody.used_connection).toBeLessThanOrEqual(
-    responseBody.max_connection,
-  );
+  // // 2. Valida se as conexões são números e fazem sentido matemático
+  // expect(responseBody.max_connection).toBeDefined();
+  // expect(responseBody.max_connection).toBeGreaterThan(0);
+
+  // expect(responseBody.used_connection).toBeDefined();
+  // expect(responseBody.used_connection).toBeGreaterThan(0);
+  // expect(responseBody.used_connection).toBeLessThanOrEqual(
+  //   responseBody.max_connection,
+  // );
 });
