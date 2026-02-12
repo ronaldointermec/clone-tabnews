@@ -4,11 +4,12 @@ test("GET to /api/v1/status shourd return 200", async () => {
 
   const responseBody = await response.json();
   console.log(responseBody);
-  expect(responseBody.updated_at).toBeDefined();
+  //expect(responseBody.updated_at).toBeDefined();
   const parseUpdatedAt = new Date(responseBody.updated_at).toISOString();
   expect(responseBody.updated_at).toEqual(parseUpdatedAt);
 
   expect(responseBody.dependencies.database.version).toEqual("16.0");
+  expect(responseBody.dependencies.database.max_connections).toEqual(100);
 
   // expect(responseBody.version).toBeDefined();
   // expect(typeof responseBody.version).toBe("string");
