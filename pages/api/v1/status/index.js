@@ -1,10 +1,5 @@
 import database from "infra/database.js";
 
-/**
- * 1) Versão do Postgres
- * 2) Conexões máximas
- * 3) Conexões usadas
- */
 async function status(request, response) {
   //   const query = `
   //   SELECT
