@@ -36,7 +36,7 @@ async function getHandler(request, response) {
   console.log(databaseOpendConnectionsValue);
 
   const updatedAt = new Date().toISOString();
-  response.status(200).json({
+  return response.status(200).json({
     updated_at: updatedAt,
     dependencies: {
       database: {
