@@ -20,7 +20,7 @@ async function waitForAllServices() {
   }
 }
 async function clearDatabase() {
-  database.query("DROP SCHEMA PUBLIC CASCADE; CREATE SCHEMA PUBLIC;");
+  await database.query("DROP SCHEMA PUBLIC CASCADE; CREATE SCHEMA PUBLIC;");
 }
 
 async function runPendingMigrations() {
