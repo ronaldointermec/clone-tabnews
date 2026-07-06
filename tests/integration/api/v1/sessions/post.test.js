@@ -136,7 +136,6 @@ describe("POST /api/v1/sessions", () => {
         map: true,
       });
 
-      console.log("parsedSetCookie:", parsedSetCookie);
       expect(parsedSetCookie.session_id).toEqual({
         name: "session_id",
         value: responseBody.token,
