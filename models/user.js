@@ -32,7 +32,6 @@ async function findOneByUsername(username) {
   }
 }
 async function findOneByEmail(email) {
-  console.log;
   const userFound = await runSelectQuery(email);
   return userFound;
 
