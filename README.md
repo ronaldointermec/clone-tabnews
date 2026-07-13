@@ -1,3 +1,3 @@
 # clone-tabnews
 
-Sentir-se competente em programação começa aqui .
+Sentir-se competente em programação começa aqui.
