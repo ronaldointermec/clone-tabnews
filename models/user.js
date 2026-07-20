@@ -32,7 +32,6 @@ async function findOneById(id) {
 }
 
 async function findOneByUsername(username) {
-
   const userFound = await runSelectQuery(username);
   return userFound;
 

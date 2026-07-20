@@ -4,16 +4,14 @@ import { UnauthorizedError } from "infra/errors";
 
 const EXPIRATION_IN_MILLISECONDS = 60 * 60 * 24 * 30 * 1000; // 30 days
 
-async function findOneValidByToken(sessionToken){
-
+async function findOneValidByToken(sessionToken) {
   const sessionFound = runSelectQuery(sessionToken);
 
   return sessionFound;
 
-  async function runSelectQuery(sessionToken) {    
-  
-  const results = await database.query({
-    text: `
+  async function runSelectQuery(sessionToken) {
+    const results = await database.query({
+      text: `
       SELECT 
         *
       FROM 
@@ -24,19 +22,19 @@ async function findOneValidByToken(sessionToken){
         LIMIT
           1
     `,
-    values: [sessionToken],
-  });
+      values: [sessionToken],
+    });
 
-      if (results.rowCount === 0) {
-        throw new UnauthorizedError({
-          message: "Usuário não possui sessão ativa.",
-          action: "Verifique se este usuário está logado e tente novamente.",
-        });
-      }
+    if (results.rowCount === 0) {
+      throw new UnauthorizedError({
+        message: "Usuário não possui sessão ativa.",
+        action: "Verifique se este usuário está logado e tente novamente.",
+      });
+    }
 
-  return results.rows[0];
+    return results.rows[0];
+  }
 }
-};
 
 async function create(userId) {
   const token = crypto.randomBytes(48).toString("hex");
@@ -62,7 +60,6 @@ async function create(userId) {
 }
 
 async function renew(sessionId) {
-
   const expiresAt = new Date(Date.now() + EXPIRATION_IN_MILLISECONDS);
 
   const renewedSessionObject = runUpdateQuery(sessionId, expiresAt);
@@ -70,7 +67,7 @@ async function renew(sessionId) {
 
   async function runUpdateQuery(sessionId, expiresAt) {
     const results = await database.query({
-      text:`
+      text: `
       UPDATE 
         sessions
       SET 
@@ -81,19 +78,18 @@ async function renew(sessionId) {
       RETURNING 
           * 
       ;`,
-      values: [sessionId,expiresAt],
+      values: [sessionId, expiresAt],
     });
 
     return results.rows[0];
   }
-  
 }
 
 const session = {
   create,
   findOneValidByToken,
   renew,
-  EXPIRATION_IN_MILLISECONDS
+  EXPIRATION_IN_MILLISECONDS,
 };
 
 export default session;

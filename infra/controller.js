@@ -32,8 +32,7 @@ function onErrorHandler(error, request, response) {
 }
 
 async function setSessionCookie(sessionToken, response) {
-
-    const setCooke = cookie.serialize("session_id", sessionToken, {
+  const setCooke = cookie.serialize("session_id", sessionToken, {
     path: "/",
     // expires: new Date(newSession.expires_at),
     maxAge: session.EXPIRATION_IN_MILLISECONDS / 1000, // Convert milliseconds to seconds

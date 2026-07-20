@@ -18,7 +18,6 @@ describe("GET /api/v1/user", () => {
 
       const sessionObject = await orchestrator.createSession(createdUser.id);
 
-
       const response = await fetch("http://localhost:3000/api/v1/user", {
         headers: {
           Cookie: `session_id=${sessionObject.token}`,
@@ -43,14 +42,20 @@ describe("GET /api/v1/user", () => {
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
 
       // Session renewall assertions
-      const renewedSessionObject = await session.findOneValidByToken(sessionObject.token);
+      const renewedSessionObject = await session.findOneValidByToken(
+        sessionObject.token,
+      );
 
-      expect(renewedSessionObject.expires_at > sessionObject.expires_at).toEqual(true);
-      expect(renewedSessionObject.updated_at > sessionObject.updated_at).toEqual(true);
+      expect(
+        renewedSessionObject.expires_at > sessionObject.expires_at,
+      ).toEqual(true);
+      expect(
+        renewedSessionObject.updated_at > sessionObject.updated_at,
+      ).toEqual(true);
 
       // Set-Cookie assertions
 
-       const parsedSetCookie = setCookieParser(response, {
+      const parsedSetCookie = setCookieParser(response, {
         map: true,
       });
 
@@ -61,15 +66,13 @@ describe("GET /api/v1/user", () => {
         path: "/",
         httpOnly: true,
       });
-
-
     });
 
     test("With noexistent session", async () => {
+      const nonexistentToken =
+        "9bc3260a637c12535ba36e42b269cf8f22180700ed13712b0ac6c9792fc7a0e9e3f2bde1492747288bf5b44d1a147b62";
 
-      const nonexistentToken = "9bc3260a637c12535ba36e42b269cf8f22180700ed13712b0ac6c9792fc7a0e9e3f2bde1492747288bf5b44d1a147b62";
-
-            const response = await fetch("http://localhost:3000/api/v1/user", {
+      const response = await fetch("http://localhost:3000/api/v1/user", {
         headers: {
           Cookie: `session_id=${nonexistentToken}`,
         },
@@ -83,14 +86,13 @@ describe("GET /api/v1/user", () => {
         name: "UnauthorizedError",
         message: "Usuário não possui sessão ativa.",
         action: "Verifique se este usuário está logado e tente novamente.",
-        status_code: 401
+        status_code: 401,
       });
     });
 
     test("With expired session", async () => {
-
       jest.useFakeTimers({
-        now: new Date( Date.now() - session.EXPIRATION_IN_MILLISECONDS)
+        now: new Date(Date.now() - session.EXPIRATION_IN_MILLISECONDS),
       });
 
       const createdUser = await orchestrator.creatUser({
@@ -115,10 +117,8 @@ describe("GET /api/v1/user", () => {
         name: "UnauthorizedError",
         message: "Usuário não possui sessão ativa.",
         action: "Verifique se este usuário está logado e tente novamente.",
-        status_code: 401
+        status_code: 401,
       });
-
-
-  });
+    });
   });
 });
