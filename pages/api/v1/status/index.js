@@ -8,10 +8,10 @@ export default router.handler(controller.errorHandlers);
 
 async function getHandler(request, response) {
   //   const query = `
-  //   SELECT
-  //     current_setting('server_version') AS "version",
-  //     current_setting('max_connections')::int AS "max",
-  //     (SELECT count(*) FROM pg_stat_activity)::int AS "used";
+  // SELECT
+  //   current_setting('server_version') AS "version",
+  //   current_setting('max_connections')::int AS "max",
+  //   (SELECT count(*) FROM pg_stat_activity)::int AS "used";
   // `;
   // const result = await database.query(query);
   const databaseVersionResult = await database.query("SHOW server_version;");
